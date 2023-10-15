@@ -61,6 +61,12 @@ public class TaskController {
             return ResponseEntity.badRequest().body("Task not found!");
         }
 
+        var idUser = request.getAttribute("idUser");
+
+        if(!task.getIdUser().equals(idUser)){
+            return ResponseEntity.badRequest().body("Usuário não possui permissão!");
+        }
+
         Utils.copyNonNullProperties(taskModel, task);
 
         var changedTask = this.taskRepository.save(task);
